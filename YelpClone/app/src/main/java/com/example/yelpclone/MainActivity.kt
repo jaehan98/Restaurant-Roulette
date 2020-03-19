@@ -21,17 +21,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //Set up Layout
         val restaurants = mutableListOf<YelpRestaurant>()
         val adapter = RestaurantsAdapter(this,restaurants)
         rvRestaurants.adapter = adapter;
         rvRestaurants.layoutManager = LinearLayoutManager(this)
 
+        //Set up retrofit
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+        //Call Yelp API
         val yelpService = retrofit.create(YelpService::class.java)
-        yelpService.searchRestaurants("Bearer $API_KEY","Avocado Toast","New York").enqueue(object : Callback<YelpSearchResult>{
+        yelpService.searchRestaurants("Bearer $API_KEY","Poke","Edison").enqueue(object : Callback<YelpSearchResult>{
 
             override fun onResponse(
                 call: Call<YelpSearchResult>,

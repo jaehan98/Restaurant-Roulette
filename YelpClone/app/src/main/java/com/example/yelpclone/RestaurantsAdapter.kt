@@ -1,10 +1,13 @@
 package com.example.yelpclone
 
 import android.content.Context
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_restaurant.view.*
 
 class RestaurantsAdapter(val context: Context, val restaurants: List<YelpRestaurant>) :
@@ -23,6 +26,17 @@ class RestaurantsAdapter(val context: Context, val restaurants: List<YelpRestaur
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         fun bind(restaurant: YelpRestaurant) {
             itemView.tvName.text = restaurant.name
+            itemView.tvPrice.text = restaurant.price
+            itemView.tvDistance.text = restaurant.displayDistance()
+            itemView.tvNumReviews.text = restaurant.numReviews + " Reviews"
+            itemView.ratingBar.numStars = restaurant.rating.toInt() //Not working
+            //image
+            var imageView = ImageView(context);
+            Picasso
+                .get()
+                .load("http://i.imgur.com/DvpvklR.png")
+                .into(imageView);
+
         }
 
     }
