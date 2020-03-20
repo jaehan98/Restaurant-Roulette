@@ -25,17 +25,20 @@ class RestaurantsAdapter(val context: Context, val restaurants: List<YelpRestaur
     }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         fun bind(restaurant: YelpRestaurant) {
+            //Display
             itemView.tvName.text = restaurant.name
             itemView.tvPrice.text = restaurant.price
             itemView.tvDistance.text = restaurant.displayDistance()
             itemView.tvNumReviews.text = restaurant.numReviews + " Reviews"
-            itemView.ratingBar.numStars = restaurant.rating.toInt() //Not working
+            itemView.ratingBar.rating = restaurant.rating.toFloat()
+            itemView.Address.text = restaurant.location.address
+            itemView.tvCategory.text = restaurant.categories[0].title
             //image
-            var imageView = ImageView(context);
+
             Picasso
                 .get()
-                .load("http://i.imgur.com/DvpvklR.png")
-                .into(imageView);
+                .load(restaurant.imageUrl)
+                .into(itemView.imageView);
 
         }
 
