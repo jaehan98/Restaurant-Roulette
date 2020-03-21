@@ -9,9 +9,12 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_restaurant.view.*
+import kotlin.system.exitProcess
 
-class RestaurantsAdapter(val context: Context, val restaurants: List<YelpRestaurant>) :
-    RecyclerView.Adapter<RestaurantsAdapter.ViewHolder>() {
+class RandomizeAdapter(val context: Context, val restaurants: List<YelpRestaurant>) :
+
+
+    RecyclerView.Adapter<RandomizeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_restaurant, parent, false))
@@ -19,9 +22,12 @@ class RestaurantsAdapter(val context: Context, val restaurants: List<YelpRestaur
 
     override fun getItemCount() = restaurants.size
 
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val restaurant = restaurants[position]
+        val rnd = (0 until itemCount).random()
+        val restaurant = restaurants[rnd]
         holder.bind(restaurant)
+
     }
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         fun bind(restaurant: YelpRestaurant) {
@@ -42,6 +48,8 @@ class RestaurantsAdapter(val context: Context, val restaurants: List<YelpRestaur
                 .resize(100, 100)
                 .centerCrop()
                 .into(itemView.imageView);
+
+
         }
 
 

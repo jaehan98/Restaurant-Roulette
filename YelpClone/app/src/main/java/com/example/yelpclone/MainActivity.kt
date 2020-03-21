@@ -1,63 +1,58 @@
 package com.example.yelpclone
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.LinearLayout
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
-private const val TAG = "MainActivity"
-private const val BASE_URL = "https://api.yelp.com/v3/"
-private const val API_KEY = "TZIrQEJTwJb4_Fyc6Ph1uKEkhzqizWg9TSTKO0Lyz9fbuRcfQVg4y7ArPvR4VLmlhkSYw6urRhVNwyykTGt8KDuTb3oZ5VPSj4kSx9QoUGL1wvDx4MSJvYxURwBzXnYx"
+
+var searchTerm = ""
+var inputLocation = ""
+var inputCategory = ""
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Set up Layout
-        val restaurants = mutableListOf<YelpRestaurant>()
-        val adapter = RestaurantsAdapter(this,restaurants)
-        rvRestaurants.adapter = adapter;
-        rvRestaurants.layoutManager = LinearLayoutManager(this)
-
-        //Set up retrofit
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        //Call Yelp API
-        val yelpService = retrofit.create(YelpService::class.java)
-        yelpService.searchRestaurants("Bearer $API_KEY","Poke","Edison").enqueue(object : Callback<YelpSearchResult>{
-
-            override fun onResponse(
-                call: Call<YelpSearchResult>,
-                response: Response<YelpSearchResult>
-            ) {
-               Log.i(TAG,"onResponse $response")
-                val body = response.body()
-                if (body == null){
-                    Log.w(TAG, "Did not receive valid response body from Yelp API... exiting")
-                }
-                if (body != null) {
-                    restaurants.addAll(body.restaurants)
-                }
-                adapter.notifyDataSetChanged()
-            }
-
-            override fun onFailure(call: Call<YelpSearchResult>, t: Throwable) {
-                Log.i(TAG,"onFailure $t")
-            }
-        })
+    }
 
 
+    fun search(view: View){
+        searchTerm = editSearch.text.toString()
+        inputLocation = editLocation.text.toString()
+        if (searchTerm == ""){
+            Toast.makeText(this, "Please enter a term", Toast.LENGTH_SHORT).show();
+            return
+        }
+        if (inputLocation == ""){
+            Toast.makeText(this, "Please enter a location", Toast.LENGTH_SHORT).show();
+            return
+        }
 
+        val intent = Intent(this, RestaurantListActivity::class.java).apply {
+        }
+        startActivity(intent)
+    }
 
+    fun randomize(view: View){
+        inputCategory = editCategory.text.toString()
+        inputLocation = editLocation.text.toString()
+
+        if (inputCategory == ""){
+            Toast.makeText(this, "Please enter a category or hit randomize", Toast.LENGTH_SHORT).show();
+            return
+        }
+        if (inputLocation == ""){
+            Toast.makeText(this, "Please enter a location", Toast.LENGTH_SHORT).show();
+            return
+        }
+
+        val intent = Intent(this, RouletteActivity::class.java).apply {
+        }
+        startActivity(intent)
     }
 }
