@@ -68,6 +68,20 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    fun search (view: View){
+         searchTerm = editSearch.text.toString()
+         inputLocation = editLocation.text.toString()
+        val intent = Intent(this,RestaurantListActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun randomize (view: View){
+        inputCategory = editCategory.text.toString()
+        inputLocation = editLocation.text.toString()
+        val intent = Intent(this,RouletteActivity::class.java)
+        startActivity(intent)
+    }
+
 
 
 }
