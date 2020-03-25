@@ -8,6 +8,8 @@ import retrofit2.http.Query
  interface YelpService {
      @GET("businesses/search")
 
+
+
      fun searchRestaurants(
          @Header("Authorization") authHeader: String,
          @Query("term") searchTerm: String,

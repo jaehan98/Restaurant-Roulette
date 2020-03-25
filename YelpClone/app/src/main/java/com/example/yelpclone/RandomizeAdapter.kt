@@ -39,9 +39,8 @@ class RandomizeAdapter(val context: Context, val restaurants: List<YelpRestauran
             itemView.ratingBar.rating = restaurant.rating.toFloat()
             itemView.Address.text = restaurant.location.address
             itemView.tvCategory.text = restaurant.categories[0].title
+
             //image
-
-
             Picasso
                 .get()
                 .load(restaurant.imageUrl)

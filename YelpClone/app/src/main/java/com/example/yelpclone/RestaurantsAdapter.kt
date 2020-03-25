@@ -1,14 +1,17 @@
 package com.example.yelpclone
 
 import android.content.Context
-import android.media.Image
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_restaurant.view.*
+
 
 class RestaurantsAdapter(val context: Context, val restaurants: List<YelpRestaurant>) :
     RecyclerView.Adapter<RestaurantsAdapter.ViewHolder>() {
@@ -19,10 +22,31 @@ class RestaurantsAdapter(val context: Context, val restaurants: List<YelpRestaur
 
     override fun getItemCount() = restaurants.size
 
+
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val restaurant = restaurants[position]
+        val mContext = context
+
+        holder.itemView.setOnClickListener{
+
+
+                if (holder.itemView.button5.text.equals(restaurant.url)){
+                    val i = Intent(Intent.ACTION_VIEW, Uri.parse(restaurant.url))
+
+                    mContext.startActivity(i)
+                }
+
+
+        }
+
         holder.bind(restaurant)
+
+
     }
+
+
+
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         fun bind(restaurant: YelpRestaurant) {
             //Display
@@ -33,8 +57,9 @@ class RestaurantsAdapter(val context: Context, val restaurants: List<YelpRestaur
             itemView.ratingBar.rating = restaurant.rating.toFloat()
             itemView.Address.text = restaurant.location.address
             itemView.tvCategory.text = restaurant.categories[0].title
-            //image
+            itemView.button5.text = restaurant.url
 
+            //image
 
             Picasso
                 .get()
@@ -45,8 +70,15 @@ class RestaurantsAdapter(val context: Context, val restaurants: List<YelpRestaur
         }
 
 
+
     }
 
 
 
+
+
+
+
+
 }
+
